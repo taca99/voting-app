@@ -21,25 +21,25 @@ interface Proposal {
 const mockProposals: Proposal[] = [
   {
     id: "1",
-    title: "Implement AI-Powered Governance Assistant",
-    description: "Proposal to integrate an AI assistant that helps users understand complex governance proposals and their implications.",
+    title: "National Plastic and Packaging Recycling Program",
+    description: "Proposal to introduce reverse vending machines in all major cities, allowing citizens to return plastic and packaging materials in exchange for vouchers as incentives for recycling.",
     status: "active",
-    endDate: "2024-01-15",
-    totalVotes: 1247,
-    yesVotes: 789,
-    noVotes: 458,
-    category: "Technology"
+    endDate: "2026-01-18",
+    totalVotes: 3321,
+    yesVotes: 2947,
+    noVotes: 374,
+    category: "Environment / Recycling"
   },
   {
     id: "2", 
-    title: "Increase Community Treasury Allocation",
-    description: "Allocate 15% of protocol revenue to community development initiatives and grants for builders.",
+    title: "Municipal Animal Shelter Initiative",
+    description: "Proposal to establish at least one public or registered animal shelter in every municipality to ensure proper care and protection for stray and abandoned animals.",
     status: "active",
-    endDate: "2024-01-20",
+    endDate: "2026-01-20",
     totalVotes: 892,
     yesVotes: 623,
     noVotes: 269,
-    category: "Treasury"
+    category: "Animal Welfare / Environment"
   },
   {
     id: "3",
