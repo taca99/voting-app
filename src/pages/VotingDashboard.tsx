@@ -43,25 +43,25 @@ const mockProposals: Proposal[] = [
   },
   {
     id: "3",
-    title: "Cross-Chain Bridge Integration",
-    description: "Enable cross-chain voting capabilities to include users from Ethereum, Polygon, and Arbitrum networks.",
+    title: "National Digital Skills Development Program",
+    description: "Proposal to implement nationwide digital skills training for students and professionals, covering programming, cybersecurity, data analysis, and artificial intelligence to strengthen Serbia’s IT workforce.",
     status: "pending",
-    endDate: "2024-01-25",
+    endDate: "2026-01-25",
     totalVotes: 0,
     yesVotes: 0,
     noVotes: 0,
-    category: "Infrastructure"
+    category: "IT / Education"
   },
   {
     id: "4",
-    title: "Decentralized Identity Verification",
-    description: "Implement a DID-based verification system to prevent duplicate voting while maintaining user privacy.",
+    title: "National Renewable Energy Initiative",
+    description: "Proposal to increase the share of renewable energy sources in Serbia’s energy mix to 25% by 2030, including solar, wind, and hydroelectric projects.",
     status: "passed",
     endDate: "2024-01-10",
     totalVotes: 2156,
     yesVotes: 1398,
     noVotes: 758,
-    category: "Security"
+    category: "Energy/Environment "
   }
 ];
 
@@ -117,9 +117,9 @@ const VotingDashboard = () => {
     <div className="min-h-screen bg-background py-8">
       <div className="container mx-auto px-4">
         <div className="mb-8">
-          <h1 className="text-4xl font-bold mb-4 gradient-text">Voting Dashboard</h1>
+          <h1 className="text-4xl font-bold mb-4 gradient-text">Participate in decisions that shape the future of Serbia.</h1>
           <p className="text-muted-foreground text-lg">
-            Participate in governance decisions that shape the future of our protocol.
+           Vote on initiatives affecting education, transport, IT, environment, and citizens’ well-being.
           </p>
         </div>
 
