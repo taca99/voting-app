@@ -1,3 +1,5 @@
+import AiSuggest from "../components/AiSuggest";
+
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Shield, Users, Zap, Globe } from "lucide-react";
@@ -20,7 +22,7 @@ const Home = () => {
               Secure, transparent, and tamper-proof voting powered by blockchain technology. 
               Make your voice heard in the future of governance.
             </p>
-            
+
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link to="/dashboard">
                 <Button size="lg" className="bg-gradient-primary hover:opacity-90 border-0 text-lg px-8 py-4">
@@ -39,7 +41,7 @@ const Home = () => {
             </div>
           </div>
         </div>
-        
+
         {/* Background gradient overlay */}
         <div className="absolute inset-0 bg-gradient-accent opacity-30 -z-10" />
       </section>
@@ -50,7 +52,7 @@ const Home = () => {
           <h3 className="text-3xl font-bold text-center mb-12 text-foreground">
             Why Choose VoteDAO?
           </h3>
-          
+
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
             {[
               {
@@ -106,6 +108,18 @@ const Home = () => {
                 </div>
               </div>
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* AI Suggest Section (UBAČENO) */}
+      <section className="py-20 px-4 bg-background-secondary/50">
+        <div className="container mx-auto">
+          <h3 className="text-3xl font-bold text-center mb-8 text-foreground">
+            AI predlog glasanja
+          </h3>
+          <div className="flex justify-center">
+            <AiSuggest />
           </div>
         </div>
       </section>

@@ -3,6 +3,7 @@ import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell } from "recharts";
 import { TrendingUp, Users, CheckCircle, XCircle, Clock } from "lucide-react";
+import AiSummary from "../components/AiSummary"; // 👈 DODATO
 
 const Results = () => {
   const proposalResults = [
@@ -18,7 +19,7 @@ const Results = () => {
     },
     {
       id: "2",
-      title: "Increase Community Treasury Allocation", 
+      title: "Increase Community Treasury Allocation",
       status: "active",
       totalVotes: 892,
       yesVotes: 623,
@@ -69,7 +70,7 @@ const Results = () => {
       rejected: "bg-destructive/20 text-destructive border-destructive/30",
       pending: "bg-warning/20 text-warning border-warning/30"
     };
-    
+
     const icons = {
       active: <Clock className="w-3 h-3" />,
       passed: <CheckCircle className="w-3 h-3" />,
@@ -102,27 +103,27 @@ const Results = () => {
         {/* Overview Stats */}
         <div className="grid md:grid-cols-4 gap-6 mb-8">
           {[
-            { 
-              label: "Total Proposals", 
-              value: "47", 
+            {
+              label: "Total Proposals",
+              value: "47",
               change: "+12%",
               icon: <TrendingUp className="w-5 h-5" />
             },
-            { 
-              label: "Total Votes Cast", 
-              value: "10,247", 
+            {
+              label: "Total Votes Cast",
+              value: "10,247",
               change: "+34%",
               icon: <Users className="w-5 h-5" />
             },
-            { 
-              label: "Proposals Passed", 
-              value: "23", 
+            {
+              label: "Proposals Passed",
+              value: "23",
               change: "49%",
               icon: <CheckCircle className="w-5 h-5" />
             },
-            { 
-              label: "Active Voters", 
-              value: "2,341", 
+            {
+              label: "Active Voters",
+              value: "2,341",
               change: "+18%",
               icon: <Users className="w-5 h-5" />
             }
@@ -154,17 +155,17 @@ const Results = () => {
             <ResponsiveContainer width="100%" height={300}>
               <BarChart data={chartData}>
                 <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
-                <XAxis 
-                  dataKey="name" 
+                <XAxis
+                  dataKey="name"
                   tick={{ fontSize: 12, fill: "hsl(var(--muted-foreground))" }}
                   angle={-45}
                   textAnchor="end"
                   height={80}
                 />
                 <YAxis tick={{ fontSize: 12, fill: "hsl(var(--muted-foreground))" }} />
-                <Tooltip 
-                  contentStyle={{ 
-                    backgroundColor: "hsl(var(--popover))", 
+                <Tooltip
+                  contentStyle={{
+                    backgroundColor: "hsl(var(--popover))",
                     border: "1px solid hsl(var(--border))",
                     borderRadius: "8px"
                   }}
@@ -196,9 +197,9 @@ const Results = () => {
                     <Cell key={`cell-${index}`} fill={entry.color} />
                   ))}
                 </Pie>
-                <Tooltip 
-                  contentStyle={{ 
-                    backgroundColor: "hsl(var(--popover))", 
+                <Tooltip
+                  contentStyle={{
+                    backgroundColor: "hsl(var(--popover))",
                     border: "1px solid hsl(var(--border))",
                     borderRadius: "8px"
                   }}
@@ -211,7 +212,7 @@ const Results = () => {
         {/* Detailed Results */}
         <div className="space-y-6">
           <h2 className="text-2xl font-semibold text-foreground">Detailed Results</h2>
-          
+
           {proposalResults.map((proposal) => (
             <Card key={proposal.id} className="p-6 card-glow bg-card border-border">
               <div className="flex flex-col lg:flex-row lg:items-start gap-6">
@@ -227,7 +228,7 @@ const Results = () => {
                       {proposal.category}
                     </Badge>
                   </div>
-                  
+
                   <div className="flex items-center gap-6 text-sm text-muted-foreground mb-4">
                     <div className="flex items-center gap-1">
                       <Clock className="w-4 h-4" />
@@ -243,11 +244,15 @@ const Results = () => {
                 <div className="lg:w-80">
                   <div className="space-y-3">
                     <div className="flex justify-between text-sm">
-                      <span className="text-success">Yes: {proposal.yesVotes} ({getVotePercentage(proposal.yesVotes, proposal.totalVotes).toFixed(1)}%)</span>
-                      <span className="text-destructive">No: {proposal.noVotes} ({(100 - getVotePercentage(proposal.yesVotes, proposal.totalVotes)).toFixed(1)}%)</span>
+                      <span className="text-success">
+                        Yes: {proposal.yesVotes} ({getVotePercentage(proposal.yesVotes, proposal.totalVotes).toFixed(1)}%)
+                      </span>
+                      <span className="text-destructive">
+                        No: {proposal.noVotes} ({(100 - getVotePercentage(proposal.yesVotes, proposal.totalVotes)).toFixed(1)}%)
+                      </span>
                     </div>
-                    <Progress 
-                      value={getVotePercentage(proposal.yesVotes, proposal.totalVotes)} 
+                    <Progress
+                      value={getVotePercentage(proposal.yesVotes, proposal.totalVotes)}
                       className="h-3"
                     />
                     <div className="text-center text-sm font-medium">
@@ -266,6 +271,11 @@ const Results = () => {
               </div>
             </Card>
           ))}
+        </div>
+
+        {/* AI summary panel (uses your /ai/summary endpoint) */}
+        <div className="mt-12 flex justify-center">
+          <AiSummary />
         </div>
       </div>
     </div>
