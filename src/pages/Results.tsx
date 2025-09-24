@@ -8,34 +8,34 @@ import AiSummary from "../components/AiSummary"; // 👈 DODATO
 const Results = () => {
   const proposalResults = [
     {
-      id: "1",
-      title: "Implement AI-Powered Governance Assistant",
-      status: "active",
-      totalVotes: 1247,
-      yesVotes: 789,
-      noVotes: 458,
-      endDate: "2024-01-15",
-      category: "Technology"
+     id: "1",
+    title: "National Plastic and Packaging Recycling Program",
+    status: "active",
+    endDate: "2026-01-18",
+    totalVotes: 3321,
+    yesVotes: 2947,
+    noVotes: 374,
+    category: "Environment / Recycling",
     },
     {
       id: "2",
-      title: "Increase Community Treasury Allocation",
-      status: "active",
-      totalVotes: 892,
-      yesVotes: 623,
-      noVotes: 269,
-      endDate: "2024-01-20",
-      category: "Treasury"
+    title: "Municipal Animal Shelter Initiative",
+    status: "active",
+    endDate: "2026-01-20",
+    totalVotes: 892,
+    yesVotes: 623,
+    noVotes: 269,
+    category: "Animal Welfare / Environment",
     },
     {
-      id: "4",
-      title: "Decentralized Identity Verification",
-      status: "passed",
-      totalVotes: 2156,
-      yesVotes: 1398,
-      noVotes: 758,
-      endDate: "2024-01-10",
-      category: "Security"
+     id: "4",
+    title: "National Renewable Energy Initiative",
+    status: "passed",
+    endDate: "2024-01-10",
+    totalVotes: 2156,
+    yesVotes: 1398,
+    noVotes: 758,
+    category: "Energy/Environment ",
     },
     {
       id: "5",
@@ -57,9 +57,9 @@ const Results = () => {
   }));
 
   const categoryData = [
-    { name: "Technology", value: 1247, color: "hsl(262 83% 58%)" },
-    { name: "Treasury", value: 892, color: "hsl(242 91% 69%)" },
-    { name: "Security", value: 3990, color: "hsl(142 76% 36%)" },
+    { name: "Environment / Recycling", value: 1247, color: "hsl(262 83% 58%)" },
+    { name: "Animal Welfare / Environment", value: 892, color: "hsl(242 91% 69%)" },
+    { name: "Energy/Environment", value: 3990, color: "hsl(142 76% 36%)" },
     { name: "Infrastructure", value: 0, color: "hsl(38 92% 50%)" }
   ];
 
