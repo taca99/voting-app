@@ -1,8 +1,14 @@
 import { NavLink } from "react-router-dom";
-import { Button } from "@/components/ui/button";
+import ConnectWallet from "./ConnectWallet";
 import { Vote, BarChart3, Home, Wallet } from "lucide-react";
 
-const Navigation = () => {
+const Navigation = ({
+  account,
+  setAccount,
+}: {
+  account: string | null;
+  setAccount: React.Dispatch<React.SetStateAction<string | null>>;
+}) => {
   return (
     <nav className="border-b border-border bg-background-secondary/50 backdrop-blur-sm sticky top-0 z-50">
       <div className="container mx-auto px-4 py-4">
@@ -14,7 +20,7 @@ const Navigation = () => {
               </div>
               <h1 className="text-xl font-bold gradient-text">VoteDAO</h1>
             </div>
-            
+
             <div className="hidden md:flex items-center space-x-6">
               <NavLink
                 to="/"
@@ -29,21 +35,23 @@ const Navigation = () => {
                 <Home className="w-4 h-4" />
                 <span>Home</span>
               </NavLink>
-              
-              <NavLink
-                to="/dashboard"
-                className={({ isActive }) =>
-                  `flex items-center space-x-2 px-3 py-2 rounded-lg transition-smooth ${
-                    isActive
-                      ? "bg-primary/20 text-primary"
-                      : "text-muted-foreground hover:text-foreground hover:bg-accent"
-                  }`
-                }
-              >
-                <Vote className="w-4 h-4" />
-                <span>Dashboard</span>
-              </NavLink>
-              
+
+              {account && (
+                <NavLink
+                  to="/dashboard"
+                  className={({ isActive }) =>
+                    `flex items-center space-x-2 px-3 py-2 rounded-lg transition-smooth ${
+                      isActive
+                        ? "bg-primary/20 text-primary"
+                        : "text-muted-foreground hover:text-foreground hover:bg-accent"
+                    }`
+                  }
+                >
+                  <Vote className="w-4 h-4" />
+                  <span>Dashboard</span>
+                </NavLink>
+              )}
+
               <NavLink
                 to="/results"
                 className={({ isActive }) =>
@@ -60,10 +68,7 @@ const Navigation = () => {
             </div>
           </div>
 
-          <Button className="bg-gradient-primary hover:opacity-90 border-0">
-            <Wallet className="w-4 h-4 mr-2" />
-            Connect Wallet
-          </Button>
+          <ConnectWallet setAccount={setAccount} />
         </div>
       </div>
     </nav>
