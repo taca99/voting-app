@@ -1,7 +1,7 @@
 // server/index.js
-require('dotenv').config();
-const express = require('express');
-const cors = require('cors');
+require("dotenv").config();
+const express = require("express");
+const cors = require("cors");
 
 const app = express();
 app.use(cors({ origin: "*" }));
@@ -14,16 +14,16 @@ app.use((req, _res, next) => {
 });
 
 // --- root & health ---
-app.get('/', (_req, res) => {
-  res.send('AI server up ✅');
+app.get("/", (_req, res) => {
+  res.send("AI server up ");
 });
 
-app.get('/health', (_req, res) => {
+app.get("/health", (_req, res) => {
   res.json({
     ok: true,
     has_token: Boolean(process.env.HF_TOKEN),
-    model_sr_en: process.env.HF_MODEL_SREN || '',
-    model_en_sr: process.env.HF_MODEL_ENSR || '',
+    model_sr_en: process.env.HF_MODEL_SREN || "",
+    model_en_sr: process.env.HF_MODEL_ENSR || "",
     port: Number(process.env.PORT) || 8081,
   });
 });
@@ -31,20 +31,21 @@ app.get('/health', (_req, res) => {
 /* =========================================
    /ai/suggest-ballot — Fallback only (nema HF)
    ========================================= */
-app.post('/ai/suggest-ballot', async (req, res) => {
-  const { topic = 'Budžet studentskog doma', language = 'sr' } = req.body || {};
+app.post("/ai/suggest-ballot", async (req, res) => {
+  const { topic = "Budžet studentskog doma", language = "sr" } = req.body || {};
 
-  const payload = (language === 'en')
-    ? {
-        title: `Do you support ${topic}?`,
-        options: ['Yes, approve', 'No, reject', 'Abstain'],
-        rules: 'One vote per user. Results are public after closing.',
-      }
-    : {
-        title: `Da li podržavate ${topic}?`,
-        options: ['Da, usvojiti', 'Ne, odbiti', 'Uzdržan'],
-        rules: 'Jedan glas po korisniku. Rezultati su javni nakon završetka.',
-      };
+  const payload =
+    language === "en"
+      ? {
+          title: `Do you support ${topic}?`,
+          options: ["Yes, approve", "No, reject", "Abstain"],
+          rules: "One vote per user. Results are public after closing.",
+        }
+      : {
+          title: `Da li podržavate ${topic}?`,
+          options: ["Da, usvojiti", "Ne, odbiti", "Uzdržan"],
+          rules: "Jedan glas po korisniku. Rezultati su javni nakon završetka.",
+        };
 
   return res.json(payload);
 });
@@ -52,59 +53,83 @@ app.post('/ai/suggest-ballot', async (req, res) => {
 /* ====================================================
    /ai/summary — Dinamički fallback only (nema HF)
    ==================================================== */
-app.post('/ai/summary', async (req, res) => {
-  const { options = [], counts = [], turnout, language = 'sr' } = req.body || {};
+app.post("/ai/summary", async (req, res) => {
+  const {
+    options = [],
+    counts = [],
+    turnout,
+    language = "sr",
+  } = req.body || {};
 
-  const norm = (s = '') =>
-    s.normalize('NFD').replace(/\p{Diacritic}/gu, '').toLowerCase().trim();
+  const norm = (s = "") =>
+    s
+      .normalize("NFD")
+      .replace(/\p{Diacritic}/gu, "")
+      .toLowerCase()
+      .trim();
 
   const total = counts.reduce((a, b) => a + (b || 0), 0);
-  const pairs = options.map((name, i) => ({
-    name,
-    count: counts[i] ?? 0,
-    pct: total > 0 ? ((counts[i] ?? 0) / total) * 100 : 0,
-  })).sort((a, b) => b.count - a.count);
+  const pairs = options
+    .map((name, i) => ({
+      name,
+      count: counts[i] ?? 0,
+      pct: total > 0 ? ((counts[i] ?? 0) / total) * 100 : 0,
+    }))
+    .sort((a, b) => b.count - a.count);
 
-  const top = pairs[0] || { name: options[0] || 'Opcija 1', count: 0, pct: 0 };
-  const second = pairs[1] || { name: options[1] || 'Opcija 2', count: 0, pct: 0 };
+  const top = pairs[0] || { name: options[0] || "Opcija 1", count: 0, pct: 0 };
+  const second = pairs[1] || {
+    name: options[1] || "Opcija 2",
+    count: 0,
+    pct: 0,
+  };
   const marginPct = Math.abs(top.pct - second.pct);
 
-  const abstainIdx = options.findIndex(o => {
-    const n = norm(o || '');
-    return n.includes('uzdrzan') || n.includes('abstain') || n.includes('suzdrzan');
+  const abstainIdx = options.findIndex((o) => {
+    const n = norm(o || "");
+    return (
+      n.includes("uzdrzan") || n.includes("abstain") || n.includes("suzdrzan")
+    );
   });
-  const abstainCount = abstainIdx >= 0 ? (counts[abstainIdx] || 0) : 0;
+  const abstainCount = abstainIdx >= 0 ? counts[abstainIdx] || 0 : 0;
   const abstainPct = total > 0 ? (abstainCount / total) * 100 : 0;
 
-  const turnoutVal = typeof turnout === 'number' ? turnout : null;
+  const turnoutVal = typeof turnout === "number" ? turnout : null;
 
-  const T = language === 'en'
-    ? {
-        leading: (n,p,c,t) => `The leading option is "${n}" with ${p.toFixed(1)}% (${c} of ${t} votes).`,
-        turnout: v => v != null ? ` Turnout: ${v}%.` : '',
-        kt_highAbst: 'High share of abstentions',
-        kt_midAbst: 'Moderate abstentions',
-        kt_lowAbst: 'Low abstentions',
-        kt_strongLead: 'Strong lead / clear mandate',
-        kt_narrowLead: 'Narrow lead',
-        kt_tie: 'Neck-and-neck race',
-        kt_highTurnout: 'High turnout',
-        kt_midTurnout: 'Moderate turnout',
-        kt_lowTurnout: 'Low turnout',
-      }
-    : {
-        leading: (n,p,c,t) => `Vodeća opcija je "${n}" sa ${p.toFixed(1)}% (${c} od ${t} glasova).`,
-        turnout: v => v != null ? ` Izlaznost: ${v}%.` : '',
-        kt_highAbst: 'Visok udeo uzdržanih',
-        kt_midAbst: 'Umeren udeo uzdržanih',
-        kt_lowAbst: 'Mali udeo uzdržanih',
-        kt_strongLead: 'Ubedljiva prednost / jasan mandat',
-        kt_narrowLead: 'Tesna prednost',
-        kt_tie: 'Praktično izjednačeno',
-        kt_highTurnout: 'Visoka izlaznost',
-        kt_midTurnout: 'Umerena izlaznost',
-        kt_lowTurnout: 'Niska izlaznost',
-      };
+  const T =
+    language === "en"
+      ? {
+          leading: (n, p, c, t) =>
+            `The leading option is "${n}" with ${p.toFixed(
+              1
+            )}% (${c} of ${t} votes).`,
+          turnout: (v) => (v != null ? ` Turnout: ${v}%.` : ""),
+          kt_highAbst: "High share of abstentions",
+          kt_midAbst: "Moderate abstentions",
+          kt_lowAbst: "Low abstentions",
+          kt_strongLead: "Strong lead / clear mandate",
+          kt_narrowLead: "Narrow lead",
+          kt_tie: "Neck-and-neck race",
+          kt_highTurnout: "High turnout",
+          kt_midTurnout: "Moderate turnout",
+          kt_lowTurnout: "Low turnout",
+        }
+      : {
+          leading: (n, p, c, t) =>
+            `Vodeća opcija je "${n}" sa ${p.toFixed(
+              1
+            )}% (${c} od ${t} glasova).`,
+          turnout: (v) => (v != null ? ` Izlaznost: ${v}%.` : ""),
+          kt_highAbst: "Visok udeo uzdržanih",
+          kt_midAbst: "Umeren udeo uzdržanih",
+          kt_lowAbst: "Mali udeo uzdržanih",
+          kt_strongLead: "Ubedljiva prednost / jasan mandat",
+          kt_narrowLead: "Tesna prednost",
+          kt_tie: "Praktično izjednačeno",
+          kt_highTurnout: "Visoka izlaznost",
+          kt_midTurnout: "Umerena izlaznost",
+          kt_lowTurnout: "Niska izlaznost",
+        };
 
   const kt = [];
   if (abstainPct >= 30) kt.push(T.kt_highAbst);
@@ -121,7 +146,8 @@ app.post('/ai/summary', async (req, res) => {
     else kt.push(T.kt_lowTurnout);
   }
 
-  const summary = T.leading(top.name, top.pct, top.count, total) + T.turnout(turnoutVal);
+  const summary =
+    T.leading(top.name, top.pct, top.count, total) + T.turnout(turnoutVal);
   return res.json({
     summary,
     key_takeaways: kt.slice(0, 3),
@@ -134,14 +160,16 @@ app.post('/ai/summary', async (req, res) => {
    ==================================================== */
 async function callHfTranslateModel(model, text) {
   const HF_TOKEN = process.env.HF_TOKEN;
-  if (!HF_TOKEN || !model) throw new Error('HF token ili model nije podešen');
+  if (!HF_TOKEN || !model) throw new Error("HF token ili model nije podešen");
 
-  const url = `https://api-inference.huggingface.co/models/${encodeURIComponent(model)}?wait_for_model=true`;
+  const url = `https://api-inference.huggingface.co/models/${encodeURIComponent(
+    model
+  )}?wait_for_model=true`;
 
   const r = await fetch(url, {
     method: "POST",
     headers: {
-      "Authorization": `Bearer ${HF_TOKEN}`,
+      Authorization: `Bearer ${HF_TOKEN}`,
       "Content-Type": "application/json",
     },
     body: JSON.stringify({ inputs: text }),
@@ -149,7 +177,7 @@ async function callHfTranslateModel(model, text) {
 
   if (!r.ok) {
     const txt = await r.text().catch(() => "");
-    throw new Error(`[HF ${model}] ${r.status} ${txt.slice(0,200)}`);
+    throw new Error(`[HF ${model}] ${r.status} ${txt.slice(0, 200)}`);
   }
 
   let data = null;
@@ -171,22 +199,27 @@ async function callHfTranslateModel(model, text) {
   }
   if (data?.generated_text) return String(data.generated_text).trim();
 
-  throw new Error(`[HF ${model}] Nepoznat format: ${JSON.stringify(data).slice(0,200)}`);
+  throw new Error(
+    `[HF ${model}] Nepoznat format: ${JSON.stringify(data).slice(0, 200)}`
+  );
 }
 
 async function hfTranslate(text, from, to) {
   const model =
-    (from === "en" && to === "sr") ? process.env.HF_MODEL_ENSR :
-    (from === "sr" && to === "en") ? process.env.HF_MODEL_SREN :
-    null;
-  if (!model) throw new Error('Nije definisan odgovarajući HF_MODEL_* u .env');
+    from === "en" && to === "sr"
+      ? process.env.HF_MODEL_ENSR
+      : from === "sr" && to === "en"
+      ? process.env.HF_MODEL_SREN
+      : null;
+  if (!model) throw new Error("Nije definisan odgovarajući HF_MODEL_* u .env");
   return callHfTranslateModel(model, text);
 }
 
 // Fallback prevodioci
 async function translateMyMemory(text, to, from) {
-  const url =
-    `https://api.mymemory.translated.net/get?q=${encodeURIComponent(text)}&langpair=${encodeURIComponent(from)}|${encodeURIComponent(to)}`;
+  const url = `https://api.mymemory.translated.net/get?q=${encodeURIComponent(
+    text
+  )}&langpair=${encodeURIComponent(from)}|${encodeURIComponent(to)}`;
   const r = await fetch(url, { method: "GET" });
   const data = await r.json().catch(() => null);
   if (r.ok && data?.responseData?.translatedText) {
@@ -200,7 +233,7 @@ async function translateLibre(text, to, from) {
   let r = await fetch("https://translate.astian.org/translate", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ q: text, source: from, target: to, format: "text" })
+    body: JSON.stringify({ q: text, source: from, target: to, format: "text" }),
   });
   let data = await r.json().catch(() => null);
   if (r.ok && data?.translatedText) return String(data.translatedText).trim();
@@ -209,7 +242,7 @@ async function translateLibre(text, to, from) {
   r = await fetch("https://libretranslate.com/translate", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ q: text, source: from, target: to, format: "text" })
+    body: JSON.stringify({ q: text, source: from, target: to, format: "text" }),
   });
   data = await r.json().catch(() => null);
   if (r.ok && data?.translatedText) return String(data.translatedText).trim();
@@ -223,7 +256,7 @@ async function translateLibre(text, to, from) {
 ----------------------------------*/
 app.post("/ai/rephrase", async (req, res) => {
   const { text = "", language = "sr" } = req.body || {};
-  const to = language === "en" ? "en" : "sr";   // cilj
+  const to = language === "en" ? "en" : "sr"; // cilj
   const from = language === "en" ? "sr" : "en"; // polazni
 
   try {
