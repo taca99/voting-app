@@ -25,7 +25,6 @@ const App = () => {
         <BrowserRouter>
           {/* Prosledjujemo account u Navigation i ConnectWallet */}
           <Navigation account={account} setAccount={setAccount} />
-          <ConnectWallet setAccount={setAccount} />
 
           <Routes>
             <Route path="/" element={<Home />} />
