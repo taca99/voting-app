@@ -9,43 +9,43 @@ const Results = () => {
   const proposalResults = [
     {
      id: "1",
-    title: "National Plastic and Packaging Recycling Program",
+    title: "Adoption of the minutes from the previous meeting.",
     status: "active",
     endDate: "2026-01-18",
     totalVotes: 3321,
     yesVotes: 2947,
     noVotes: 374,
-    category: "Environment / Recycling",
+    category: "Academic Administration and Planning",
     },
     {
       id: "2",
-    title: "Municipal Animal Shelter Initiative",
+    title: "Extension of the exam registration deadline for the current exam session",
     status: "active",
     endDate: "2026-01-20",
     totalVotes: 892,
     yesVotes: 623,
     noVotes: 269,
-    category: "Animal Welfare / Environment",
+    category: "Student Experience and Support",
     },
     {
      id: "4",
-    title: "National Renewable Energy Initiative",
+    title: "Rescheduling of the exam in E-Business due to a scheduling conflict",
     status: "passed",
     endDate: "2024-01-10",
     totalVotes: 2156,
     yesVotes: 1398,
     noVotes: 758,
-    category: "Energy/Environment ",
+    category: "Exam Scheduling and Logistics ",
     },
     {
       id: "5",
-      title: "Multi-sig Wallet Integration",
+      title: "Adoption of the financial plan for the 2025/2026 academic year",
       status: "rejected",
       totalVotes: 1834,
       yesVotes: 624,
       noVotes: 1210,
       endDate: "2024-01-08",
-      category: "Security"
+      category: "Academic Administration and Planning"
     }
   ];
 
@@ -57,10 +57,10 @@ const Results = () => {
   }));
 
   const categoryData = [
-    { name: "Environment / Recycling", value: 1247, color: "hsl(262 83% 58%)" },
-    { name: "Animal Welfare / Environment", value: 892, color: "hsl(242 91% 69%)" },
-    { name: "Energy/Environment", value: 3990, color: "hsl(142 76% 36%)" },
-    { name: "Infrastructure", value: 0, color: "hsl(38 92% 50%)" }
+    { name: "Academic Administration and Planning", value: 1247, color: "hsl(262 83% 58%)" },
+    { name: "Student Experience and Support", value: 892, color: "hsl(242 91% 69%)" },
+    { name: "Exam Scheduling and Logistics", value: 3990, color: "hsl(142 76% 36%)" },
+    
   ];
 
   const getStatusBadge = (status: string) => {
