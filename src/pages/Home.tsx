@@ -16,7 +16,7 @@ const Home = () => {
               Decentralized Voting
             </h1>
             <h2 className="text-3xl md:text-4xl font-semibold mb-8 text-foreground">
-              For the Web3 Era
+              
             </h2>
             <p className="text-xl text-muted-foreground mb-12 max-w-2xl mx-auto">
               Secure, transparent, and tamper-proof voting powered by blockchain technology. 
@@ -116,7 +116,7 @@ const Home = () => {
       <section className="py-20 px-4 bg-background-secondary/50">
         <div className="container mx-auto">
           <h3 className="text-3xl font-bold text-center mb-8 text-foreground">
-            AI predlog glasanja
+            AI Voting Proposal
           </h3>
           <div className="flex justify-center">
             <AiSuggest />
