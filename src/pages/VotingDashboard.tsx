@@ -23,51 +23,51 @@ interface Proposal {
 const mockProposals: Proposal[] = [
   {
     id: "1",
-    title: "National Plastic and Packaging Recycling Program",
+    title: "Adoption of the minutes from the previous meeting.",
     description:
-      "Proposal to introduce reverse vending machines in all major cities, allowing citizens to return plastic and packaging materials in exchange for vouchers as incentives for recycling.",
+      "The minutes from the previous session are submitted for adoption without amendments.",
     status: "active",
     endDate: "2026-01-18",
     totalVotes: 3321,
     yesVotes: 2947,
     noVotes: 374,
-    category: "Environment / Recycling",
+    category: "Academic Administration and Planning",
   },
   {
     id: "2",
-    title: "Municipal Animal Shelter Initiative",
+    title: "Extension of the exam registration deadline for the current exam session",
     description:
-      "Proposal to establish at least one public or registered animal shelter in every municipality to ensure proper care and protection for stray and abandoned animals.",
+      "Allowing more students to complete their registrations on time.",
     status: "active",
     endDate: "2026-01-20",
     totalVotes: 892,
     yesVotes: 623,
     noVotes: 269,
-    category: "Animal Welfare / Environment",
+    category: "Student Experience and Support",
   },
   {
     id: "3",
-    title: "National Digital Skills Development Program",
+    title: "Rescheduling of the exam in E-Business due to a scheduling conflict",
     description:
-      "Proposal to implement nationwide digital skills training for students and professionals, covering programming, cybersecurity, data analysis, and artificial intelligence to strengthen Serbia’s IT workforce.",
+      "Addressing the issue of simultaneous scheduling of multiple exams.",
     status: "pending",
     endDate: "2026-01-25",
     totalVotes: 0,
     yesVotes: 0,
     noVotes: 0,
-    category: "IT / Education",
+    category: "Exam Scheduling and Logistics",
   },
   {
     id: "4",
-    title: "National Renewable Energy Initiative",
+    title: "Adoption of the financial plan for the 2025/2026 academic year",
     description:
-      "Proposal to increase the share of renewable energy sources in Serbia’s energy mix to 25% by 2030, including solar, wind, and hydroelectric projects.",
+      "Review and approval of the budget for faculty operations and student activities.",
     status: "passed",
     endDate: "2024-01-10",
     totalVotes: 2156,
     yesVotes: 1398,
     noVotes: 758,
-    category: "Energy/Environment ",
+    category: "Academic Administration and Planning ",
   },
 ];
 
